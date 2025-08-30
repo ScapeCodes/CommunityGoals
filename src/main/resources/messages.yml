@@ -1,0 +1,47 @@
+# Prefix added to all plugin messages
+prefix: "&e&lGoals &f→&7 "
+
+# General messages
+reloaded: "&7Plugin Reloaded."
+no-permission: "&cYou don't have permission."
+unknown-goal: "&cUnknown goal &e{goal}&c."
+not-number: "&c'{input}' is not a number."
+added-progress: "Added &e{amount}&7 progress to &e{goal}&7 (&b{current}/{target}&7)."
+set-progress: "Set &e{goal}&7 to &b{current}/{target}&7."
+already-complete: "&e{goal}&7 is already complete."
+forced-complete: "Forced completion for &e{goal}&7."
+donate-disabled: "&cNo active MONEY_DONATED goal found."
+donate-success: "&aDonated &e${amount}&a toward &e{goal}&a!"
+
+# List & progress
+list-header: "&eActive Goals:"
+list-line: "&7- &e{goal}&7: {percent}% &8({current}/{target})"
+progress-line: "&e{goal}&7: {bar}""&e{goal}&7: {bar}"
+
+# Help message (supports {label})
+help:
+  - "&e/{label} help &7- Show this help menu"
+  - "&e/{label} reload &7- Reload config & messages"
+  - "&e/{label} list &7- List all active goals"
+  - "&e/{label} progress <id> &7- Show progress bar for a goal"
+  - "&e/{label} add <id> <amount> &7- Add progress to a goal (admin)"
+  - "&e/{label} set <id> <amount> &7- Set progress of a goal (admin)"
+  - "&e/{label} complete <id> &7- Force-complete a goal (admin)"
+  - "&e/{label} donate <amount> &7- Donate to MONEY_DONATED goals (Vault)"
+
+# Usage messages (supports {label})
+usage:
+  reload: "&cUsage: /{label} reload"
+  list: "&cUsage: /{label} list"
+  progress: "&cUsage: /{label} progress <id>"
+  add: "&cUsage: /{label} add <id> <amount>"
+  set: "&cUsage: /{label} set <id> <amount>"
+  complete: "&cUsage: /{label} complete <id>"
+  donate: "&cUsage: /{label} donate <amount>"
+  unknown: "&cUnknown subcommand. Use /{label} help"
+
+# Extra error states
+players-only: "&cPlayers only."
+not-enough-money: "&cYou don't have enough money."
+eco-missing: "&cVault economy not found."
+amount-positive: "&cAmount must be > 0"

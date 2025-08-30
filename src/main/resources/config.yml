@@ -1,0 +1,105 @@
+# =========================
+# CommunityGoals - Config
+# =========================
+# Goals Information
+# types >
+# - BLOCK_BREAK
+# - BLOCK_PLACE
+# - ITEM_CRAFT
+# - FISH_CATCH
+# - MOB_KILL
+# - PLAYER_KILL
+# - PLAYTIME_MINUTES
+# - DISTANCE_TRAVELED - distance target is in blocks (how many blocks they walk in)
+# - MONEY_DONATED - uses vault. "/goals donate <amount>"
+# - DONATION_STORE - supports craftingstore.
+#
+# target > the amount value that should be reached to give rewards.
+# reward-commands > commands that are executed by the console.
+# reward-recipients > Players that should be received the rewards: ONLINE, ALL, CONTRIBUTORS
+# reset-on-complete > Should the goals data reset upon completing.
+#
+# -------------------------------------------------------------------
+# PlaceholderAPI Placeholders
+# -------------------------------------------------------------------
+#
+# ── Global counts ────────────────────────────────
+# %communitygoals_active_count%        → number of active (enabled & not complete) goals
+# %communitygoals_completed_count%     → number of completed goals
+#
+# ── Goal progress / info ────────────────────────────────
+# %communitygoals_description_<id>%        → goals description.
+# %communitygoals_percent_<id>%        → progress percent (e.g. "42.5")
+# %communitygoals_current_<id>%        → current progress value
+# %communitygoals_target_<id>%         → target value
+# %communitygoals_bar_<id>%            → formatted progress bar
+# %communitygoals_progress_<id>%       → current/target (e.g. "420/1000")
+# %communitygoals_status_<id>%         → "active", "complete", or "disabled"
+#
+# ── Player-specific ──────────────────────────────
+# %communitygoals_player_contrib_<id>%          → contribution amount of the player
+#    Example: %communitygoals_player_contrib_mine_stone% → "128"
+#
+# %communitygoals_player_contrib_percent_<id>%  → contribution % of the goal
+#    Example: %communitygoals_player_contrib_percent_mine_stone% → "12.80"
+# -------------------------------------------------------------------
+
+storage:
+  save-interval-ticks: 600  # auto-save every 30s (20t = 1s)
+
+progress-bar:
+  length: 10
+  complete-char: "■"
+  incomplete-char: "□"
+  format: "&a{bar} &7{percent}% &f(&b{current}/{target}&f)"
+
+broadcasts:
+  start: "&6[Goals]&7 Started goal &e{goal}&7: {desc}"
+  progress: "&6[Goals]&7 {goal}: &e{percent}%&7 complete."
+  complete: "&6[Goals]&a Goal complete! &e{goal}&7 — rewards delivered."
+  interval-percent: [10,25,50,75,90]
+
+settings:
+  creative-prevention: true # set true to exclude creative-mode players.
+
+goals:
+  # Example: mine 100,000 stone blocks (any player, server-wide)
+  mine_stone:
+    enabled: true
+    label: 'Mine Stone'
+    type: BLOCK_BREAK
+    description: "Mine 100,000 stone blocks together!"
+    target: 100000
+    # optional: restrict to specific blocks (empty = any)
+    materials: [STONE]
+    reward-commands:
+      - "broadcast &aEveryone receives 3 Vote Keys for completing &e{goal}"
+      - "cgiveall key vote 3"        # example; replace with your crate system
+    reward-recipients: ONLINE    # ONLINE | ALL | CONTRIBUTORS
+    reset-on-complete: true
+
+  # Example: slay 5,000 zombies
+  slay_undead:
+    enabled: true
+    label: 'Slay Undead'
+    type: MOB_KILL
+    description: "Slay 5,000 zombies!"
+    target: 5000
+    entities: [ZOMBIE]
+    reward-commands:
+      - "eco give %player% 500"   # used only if reward-recipients=CONTRIBUTORS
+    reward-recipients: CONTRIBUTORS
+    reset-on-complete: true
+
+  # Example: craft 10,000 anvils
+  smith_mastery:
+    enabled: false
+    label: 'Smith Mastery'
+    type: ITEM_CRAFT
+    description: "Craft 10,000 anvils!"
+    target: 10000
+    materials: [ANVIL]
+    reward-commands:
+      - "broadcast &dThe forge sings! Bonus drops +10% for 24h."
+    reward-recipients: ALL
+    reset-on-complete: true

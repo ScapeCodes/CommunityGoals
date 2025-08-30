@@ -1,0 +1,22 @@
+name: CommunityGoals
+version: '${version}'
+main: net.scape.project.communitygoals.CommunityGoals
+api-version: '1.13'
+load: STARTUP
+authors: [ Scape ]
+description: Set server-wide goals with rewards for everyone.
+softdepend:
+  - PlaceholderAPI
+  - Vault
+commands:
+  communitygoals:
+    aliases: [cgoals, goal, goals]
+    description: CommunityGoals admin & player commands
+    usage: /<command> help
+permissions:
+  communitygoals.admin:
+    description: Manage goals and config
+    default: op
+  communitygoals.donate:
+    description: Allow donating money toward MONEY_DONATED goals
+    default: true

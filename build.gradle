@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+    id("xyz.jpenilla.run-paper") version "2.3.1"
+}
+
+group = 'net.scape.project'
+version = '1.0.3'
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+repositories {
+    mavenCentral()
+
+    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://repo.opencollab.dev/maven-snapshots/' }
+    maven { url 'https://repo.codemc.org/repository/maven-public/' }
+    maven { url 'https://repo.codemc.io/repository/maven-snapshots/' }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://libraries.minecraft.net/' }
+    maven { url 'https://repo1.maven.org/maven2/' }
+    maven { url 'https://repo.rosewooddev.io/repository/public/' }
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url 'https://hub.jeff-media.com/nexus/repository/jeff-media-public/' }
+    maven { url 'https://repo.nexomc.com/releases/' }
+    maven { url 'https://repo.oraxen.com/releases' }
+    maven { url "https://repo.oraxen.com/releases" }
+    maven { url "https://repo.nightexpressdev.com/releases" }
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+    maven {
+        name "essentialsx-releases"
+        url "https://repo.essentialsx.net/releases/"
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+        eachDependency {
+            if (requested.group == 'org.spigotmc' && requested.name == 'spigot-api') {
+                useTarget 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+                because 'Force resolution to match Paper 1.21.8 API'
+            }
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
+    compileOnly "net.milkbowl.vault:VaultUnlockedAPI:2.11"
+
+    // CraftingStore API
+    compileOnly files('pl-libs/CraftingStore-2.9.3-RELEASE.jar')
+}
+
+processResources {
+    def props = [
+            version: project.version,
+            name: project.name
+    ]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+jar {
+    archiveBaseName.set("CommunityGoals")
+    archiveVersion.set(project.version.toString())
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.scape.project.communitygoals.CommunityGoals',
+                'Implementation-Title': 'CommunityGoals',
+                'Implementation-Version': project.version.toString()
+        )
+    }
+
+    exclude("pl-libs/**")
+
+    // Also exclude some META-INF files
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+}
